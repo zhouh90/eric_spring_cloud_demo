@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import eric.app1.framework.dto.R;
+import eric.app1.framework.dto.Res;
 import eric.app1.framework.dto.enums.CodeEnum;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,10 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value = Exception.class)
-	public R<Object> convertException(HttpServletRequest request, Exception e) throws Exception {
+	public Res<Object> convertException(HttpServletRequest request, Exception e) throws Exception {
 		log.error("enter GlobalExceptionHandler.convertException: 捕获的异常=====================================");
 		log.error(e.getMessage(), e);
-		return new R<Object>(CodeEnum.ERROR, null, e.getMessage() + "(" + request.getRequestURI() + ")");
+		return new Res<Object>(CodeEnum.ERROR, null, e.getMessage() + "(" + request.getRequestURI() + ")");
 	}
 
 }

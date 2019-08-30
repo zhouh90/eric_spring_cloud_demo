@@ -9,7 +9,7 @@ package eric.app1.framework.dto.enums;
 
 public enum CodeEnum {
 
-	OK(200, "OK"), // 正常
+	OK(200, "OK"),
 
 	AUTHENTICATION_FAILED(401, "toekn失效，请重新登录"),
 

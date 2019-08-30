@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import eric.app1.framework.dto.Page;
-import eric.app1.framework.dto.R;
+import eric.app1.framework.dto.Res;
 import eric.app1.framework.dto.enums.CodeEnum;
 import eric.app1.module.entity.UserOrder;
 import eric.app1.module.request.UserOrderRequest;
@@ -33,39 +33,39 @@ public class UserOrderController {
 	@ApiOperation(value = "分页获取用户订单", notes = "分页获取用户订单")
 	@ApiImplicitParam(name = "orderParam", value = "订单筛选参数", required = false, dataType = "UserOrderRequest")
 	@PostMapping("/listByPage")
-	public R<Page<UserOrder>> listOrders(@RequestBody UserOrderRequest orderParam) throws Exception {
+	public Res<Page<UserOrder>> listOrders(@RequestBody UserOrderRequest orderParam) throws Exception {
 		log.info("enter UserOrderController.listOrders");
 		if (orderParam == null) {
 			orderParam = new UserOrderRequest();
 		}
 		orderParam.setUserId(1);
 		Page<UserOrder> page = userOrderService.listUserOrders(orderParam);
-		return new R<>(CodeEnum.OK, page);
+		return new Res<>(CodeEnum.OK, page);
 	}
 
 	@ApiOperation(value = "分页获取用户订单(无需认证)", notes = "分页获取用户订单(无需认证)")
 	@PostMapping("/listOrdersWithoutAuth")
-	public R<Page<UserOrder>> listOrdersWithoutAuth(@RequestBody UserOrderRequest orderParam) throws Exception {
+	public Res<Page<UserOrder>> listOrdersWithoutAuth(@RequestBody UserOrderRequest orderParam) throws Exception {
 		log.info("enter UserOrderController.listOrdersWithoutAuth");
 		if (orderParam == null) {
 			orderParam = new UserOrderRequest();
 		}
 		orderParam.setUserId(1);
 		Page<UserOrder> page = userOrderService.listUserOrders(orderParam);
-		return new R<>(CodeEnum.OK, page);
+		return new Res<>(CodeEnum.OK, page);
 	}
 
 	@ApiOperation(value = "分页获取用户订单(需要管理员权限)", notes = "分页获取用户订单(需要管理员权限)")
 	@PostMapping("/listOrdersWithAdmin")
 //	@PreAuthorize("hasAuthority('ADMIN')")
-	public R<Page<UserOrder>> listOrdersWithAdmin(@RequestBody UserOrderRequest orderParam) throws Exception {
+	public Res<Page<UserOrder>> listOrdersWithAdmin(@RequestBody UserOrderRequest orderParam) throws Exception {
 		log.info("enter UserOrderController.listOrdersWithAdmin");
 		if (orderParam == null) {
 			orderParam = new UserOrderRequest();
 		}
 		orderParam.setUserId(1);
 		Page<UserOrder> page = userOrderService.listUserOrders(orderParam);
-		return new R<>(CodeEnum.OK, page);
+		return new Res<>(CodeEnum.OK, page);
 	}
 
 }

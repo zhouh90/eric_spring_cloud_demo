@@ -12,12 +12,24 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum OrderStatusEnum {
 
+	/**
+	 * 待付款
+	 */
 	WAIT_TO_PAY("待付款"),
 
+	/**
+	 * 配送中
+	 */
 	DISPATCHING("配送中"),
 
+	/**
+	 * 已签收
+	 */
 	FINISHED("已签收"),
 
+	/**
+	 * 签收并评论
+	 */
 	FINISHED_AND_EVALUATED("签收并评论");
 
 	@Getter
