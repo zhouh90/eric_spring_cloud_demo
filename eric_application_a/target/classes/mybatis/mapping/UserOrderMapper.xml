@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eric.app1.module.mapper.UserOrderMapper" >
+
+	<resultMap type="UserOrder" id="user-order-result">
+		<id column="id" property="id" />
+		<id column="user_id" property="userId" />
+		<id column="order_status" property="orderStatus" typeHandler="eric.app1.framework.typehandler.OrderStatusEnumHandler" javaType="eric.app1.module.entity.enums.OrderStatusEnum"/>
+		<id column="create_time" property="createTime" />
+		<id column="update_time" property="updateTime" />
+		<association  property="orderDetail" column="id" fetchType="lazy" select="getOrderDetailByOrderId" />
+	</resultMap>
+	
+	<resultMap type="UserOrderDetail" id="user-order-detail-result">
+		<id column="id" property="id" />
+		<id column="order_id" property="orderId" />
+		<id column="product_id" property="productId" />
+		<id column="order_name" property="orderName" />
+		<id column="order_pic" property="orderPic" />
+		<id column="create_time" property="createTime" />
+		<id column="update_time" property="updateTime" />
+	</resultMap>
+	
+	<select id="getOrderDetailByOrderId" parameterType="int" resultMap="user-order-detail-result">
+		SELECT * FROM user_order_details WHERE order_id = #{id}
+	</select>
+
+	<select id="listUserOrders" resultMap="user-order-result" parameterType="UserOrderRequest">
+		SELECT 
+			* 
+		FROM 
+			user_orders 
+		WHERE 
+			user_id = #{userId}
+		<choose>
+			<when test="orderStatusList !=null ">
+				AND order_status IN (
+				<foreach collection="orderStatusList" item="item" index="index" separator=",">
+					#{item,typeHandler=eric.app1.framework.typehandler.OrderStatusEnumHandler}
+				</foreach>
+				)
+			</when>
+			<otherwise>
+				<if test="orderStatus != null">
+					AND order_status = #{orderStatus,typeHandler=eric.app1.framework.typehandler.OrderStatusEnumHandler}
+				</if>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="count" parameterType="UserOrderRequest" resultType="int">
+		SELECT 
+			COUNT(1) 
+		FROM 
+			user_orders 
+		WHERE 
+			user_id = #{userId}
+		<choose>
+			<when test="orderStatusList !=null ">
+				AND order_status IN (
+				<foreach collection="orderStatusList" item="item" index="index" separator=",">
+					#{item,typeHandler=eric.app1.framework.typehandler.OrderStatusEnumHandler}
+				</foreach>
+				)
+			</when>
+			<otherwise>
+				<if test="orderStatus != null">
+					AND order_status = #{orderStatus,typeHandler=eric.app1.framework.typehandler.OrderStatusEnumHandler}
+				</if>
+			</otherwise>
+		</choose>
+	</select>
+
+</mapper>
