@@ -1,0 +1,50 @@
+server:
+  port: 8901
+
+#security:
+#  basic:
+#    enabled: false
+
+spring:
+  application:
+    name: apperic1
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/eric?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
+    username: root
+    password: zhou123
+    driver: com.mysql.jdbc.Driver
+    
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+      
+mybatis:
+  mapper-locations: 'classpath:mybatis/mapping/**.xml'
+  config-location: classpath:mybatis/mybatis-config.xml
+  type-aliases-package: eric.app1.module.entity,eric.app1.module.request
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*' 
+        #refresh,health,info
+
+logging:
+  level:
+    eric.app1.module.mapper: DEBUG
+    eric: INFO
+    
+message:
+  #文件压缩大小(大于4兆压缩)
+  fileSize: 4194304
+  upPath: /data/files
+  ##压缩比例
+  scaleRatio: 0.20f
+  imageType: png,jpg,jpeg,bmp,gif

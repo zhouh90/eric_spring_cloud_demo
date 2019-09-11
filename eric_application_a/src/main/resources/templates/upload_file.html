@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>文件上传页面</title>
+<link th:href="@{/layui/css/layui.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script> 
+<script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+<style type="text/css">
+img{width:200px;height:200px}
+</style>
+</head>
+<body>
+<div class="layui-upload">
+  <button type="button" class="layui-btn" id="uploadBtn">上传图片</button>
+  <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+	预览图：
+	<div class="layui-upload-list" id="uploadImgs"></div>
+  </blockquote>
+</div>
+</body>
+<script type="text/javascript">
+layui.use('upload', function () {
+    var upload = layui.upload;
+    //执行实例
+    var uploadInst = upload.render({
+        elem: '#uploadBtn',  //绑定元素
+        url: '/upload/uploadImage', //上传接口
+        multiple: true,
+        accept: 'images',
+        acceptMime: 'image/*',
+        auto: true,
+        size: 4096, //KB
+        done: function (res) {
+            console.log('res:'+res);
+            //上传完毕回调
+            if (res.code != 200) {
+                return layer.msg('上传失败:'+res.message);
+            } else {
+            	var upImg = '<img class="layui-upload-img" src="/upload/image?path='+res.data.path+'" />';
+            	upImg += $('#uploadImgs').html();
+            	$('#uploadImgs').html(upImg);
+                return layer.msg('上传成功');
+            }
+        }, 
+        error: function () {
+            //请求异常回调
+            console.log('error~');
+        }
+    });
+});
+</script>
+</html>
