@@ -43,7 +43,7 @@ public class FileUploadController {
 
 	@RequestMapping("page")
 	public ModelAndView uploadPage(Model model) {
-		log.info("enter upload page...");
+		log.info("enter upload page....");
 		return new ModelAndView("upload_file");
 	}
 
